@@ -24,7 +24,6 @@ class PopupWithForm extends React.Component {
             action="URL"
             name={this.props.name}
             className={`popup__form form-${this.props.name}`}
-            noValidate=""
             onSubmit={this.props.onSubmit}
           >
             <h3 className="popup__title">{this.props.title}</h3>

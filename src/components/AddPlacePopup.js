@@ -43,7 +43,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         maxLength="30"
         required
         onChange={handleChangeName}
-        value={name || ""}
+        value={name}
       />
       <div className="popup__position">
         <span id="name-error" className="popup__error"></span>
@@ -52,12 +52,11 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         className="popup__input"
         type="text"
         placeholder="Ссылка на карточку"
-        defaultValue=""
         name="link"
         id="link-photos"
         required
         onChange={handleChangeDescription}
-        value={link || ""}
+        value={link}
       />
       <div className="popup__position">
         <span id="profil-error" className="popup__error"></span>
