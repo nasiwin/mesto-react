@@ -1,6 +1,8 @@
 import React from "react";
 import { api } from "../utils/Api";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -8,24 +10,13 @@ class Main extends React.Component {
       userName: "",
       userDescription: "",
       userAvatar: "",
-      cards: [],
     };
   }
-  componentDidMount() {
-    Promise.all([api.getProfile(), api.getDataCards()])
-      .then(([data, card]) => {
-        this.setState({
-          userName: data.name,
-          userDescription: data.about,
-          userAvatar: data.avatar,
-          cards: card,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+
+  static contextType = CurrentUserContext;
+
   render() {
+    const currentUser = this.context;
     const {
       onEditAvatar,
       onAddPlace,
@@ -33,7 +24,7 @@ class Main extends React.Component {
       onCardClick,
       openImagePopup,
     } = this.props;
-    const { userName, userDescription, userAvatar, cards } = this.state;
+    const { userName, userDescription, userAvatar } = this.state;
     return (
       <main className="content">
         <section className="profile">
@@ -41,7 +32,7 @@ class Main extends React.Component {
             <div className="profile__avatar-container">
               <img
                 className="profile__avatar"
-                src={this.state.userAvatar}
+                src={currentUser.avatar}
                 alt="аватарка" /*у меня стили настроенны на src и со style они не работают*/
               />
 
@@ -51,14 +42,14 @@ class Main extends React.Component {
               ></button>
             </div>
             <div className="profile__info">
-              <h1 className="profile__name">{this.state.userName}</h1>
+              <h1 className="profile__name">{currentUser.name}</h1>
               <button
                 className="profile__edit-button"
                 onClick={this.props.onEditProfile}
                 type="button"
                 aria-label="редактировать"
               ></button>
-              <p className="profile__profil">{this.state.userDescription}</p>
+              <p className="profile__profil">{currentUser.about}</p>
             </div>
           </div>
           <button
@@ -69,13 +60,15 @@ class Main extends React.Component {
           ></button>
         </section>
         <section className="elements">
-          {this.state.cards.map((card) => {
+          {this.props.cards.map((card) => {
             return (
               <Card
                 card={card}
                 key={card._id}
                 onCardClick={this.props.onCardClick}
                 openImagePopup={this.props.openImagePopup}
+                onCardLike={this.props.onCardLike}
+                onCardDelete={this.props.onCardDelete}
               />
             );
           })}

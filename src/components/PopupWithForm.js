@@ -16,7 +16,7 @@ class PopupWithForm extends React.Component {
         <div className={`popup__container popup__container-${this.props.name}`}>
           <button
             type="button"
-            className={`popup__close link`}
+            className={`popup__close `}
             onClick={this.props.onClose}
           />
 
@@ -25,12 +25,14 @@ class PopupWithForm extends React.Component {
             name={this.props.name}
             className={`popup__form form-${this.props.name}`}
             noValidate=""
+            onSubmit={this.props.onSubmit}
           >
             <h3 className="popup__title">{this.props.title}</h3>
             {this.props.children}
             <button
               type="submit"
-              className={`popup__save form__button_type_${this.props.name} link`}
+              className={`popup__save form__button_type_${this.props.name}`}
+              onSubmit={this.props.onSubmit}
             >
               {this.props.buttonText}
             </button>
